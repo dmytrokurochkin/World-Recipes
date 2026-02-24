@@ -1,0 +1,9 @@
+.footerContainer {
+    width: 100%;
+    height: 50px;
+    background-color: lightskyblue;
+    display: grid;
+    box-sizing: border-box;
+    text-align: center;
+    align-items: center;
+}
