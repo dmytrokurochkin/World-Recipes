@@ -5,8 +5,8 @@ function Header() {
     <header>
         <div className="headerContainer">
             <div className="headerLeft">
-                <a href="#">Home</a>
-                <a href="#">Random Recipe</a>
+                <a href="/">Home</a>
+                <a href="#">Random recipe</a>
             </div>
             <div className="siteName">
                 <h2>

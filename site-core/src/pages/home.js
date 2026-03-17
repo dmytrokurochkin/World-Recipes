@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom"; 
 import RecipeCard from "../components/recipeCard";
 import "./home.css"
 
@@ -22,11 +23,16 @@ function Home() {
             <div className="recipeGrid">
                 {categories.map(function(category){
                     return(
-                        <RecipeCard
-                            key = {category.idCategory}
-                            title = {category.strCategory}
-                            image = {category.strCategoryThumb}
-                        />
+                        <Link to={`/category/${category.strCategory}`}
+                        key={category.idCategory}
+                        style={{ textDecoration: 'none', color: 'inherit' }}
+                        >
+                            <RecipeCard
+                                key = {category.idCategory}
+                                title = {category.strCategory}
+                                image = {category.strCategoryThumb}
+                            />
+                        </Link>
                     )
                 })}
             </div>
