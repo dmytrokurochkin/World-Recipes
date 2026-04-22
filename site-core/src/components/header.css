@@ -16,6 +16,20 @@
     font-size: 17px;
 }   
 
+.headerLinkButton {
+    border: none;
+    background: transparent;
+    color: #111;
+    font-weight: 500;
+    font-size: 17px;
+    padding: 0;
+}
+
+.headerLinkButton:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
 .headerContainer a:hover {
     color: #555;
 }
@@ -44,4 +58,9 @@
   border: 1px solid white;
   outline: none;
   font-size: 14px;
+}
+
+.activeProfileName {
+    font-size: 13px;
+    color: #333;
 }

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import RecipeCard from '../components/recipeCard'; 
+import { addProfileFavorite, getProfileFavorites, removeProfileFavorite } from '../api/favorites';
 import './home.css'; 
 
 function roundForCooking(value) {
@@ -33,7 +34,7 @@ function parseQuantity(str) {
 function convertToMetric(measureText) {
   if (!measureText) return "";
 
-  const regex = /([\d\s\.\/]+)\s*(lb|lbs|oz|cup|cups)\b/gi;
+  const regex = /([\d\s./]+)\s*(lb|lbs|oz|cup|cups)\b/gi;
 
   let convertedText = measureText.replace(regex, function(match, numberPart, unit) {
     const num = parseQuantity(numberPart);
@@ -63,6 +64,9 @@ function convertToMetric(measureText) {
 function RecipeDetails() {
   const { id } = useParams();
   const [recipe, setRecipe] = useState(null);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [favoriteError, setFavoriteError] = useState('');
+  const [isFavoriteLoading, setIsFavoriteLoading] = useState(false);
 
   useEffect(function() {
     fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`)
@@ -73,6 +77,40 @@ function RecipeDetails() {
         setRecipe(data.meals[0]); 
       });
   }, [id]);
+
+  useEffect(function() {
+    setFavoriteError('');
+    getProfileFavorites()
+      .then(function(favorites) {
+        const found = favorites.some(function(item) {
+          return item.recipeId === String(id);
+        });
+        setIsFavorite(found);
+      })
+      .catch(function(err) {
+        setFavoriteError(err.message || 'Could not load favorite state.');
+      });
+  }, [id]);
+
+  function handleFavoriteClick() {
+    setIsFavoriteLoading(true);
+    setFavoriteError('');
+
+    const action = isFavorite
+      ? removeProfileFavorite(id)
+      : addProfileFavorite(id);
+
+    action
+      .then(function() {
+        setIsFavorite(!isFavorite);
+      })
+      .catch(function(err) {
+        setFavoriteError(err.message || 'Favorite action failed.');
+      })
+      .finally(function() {
+        setIsFavoriteLoading(false);
+      });
+  }
 
   if (!recipe) {
     return <h2 style={{textAlign: 'center', marginTop: '50px'}}>Loading...</h2>;
@@ -97,6 +135,20 @@ function RecipeDetails() {
       <h1 style={{ textAlign: 'center', paddingTop: '20px', margin: '0', paddingBottom: '20px' }}>
         {recipe.strMeal} - Ingredients
       </h1>
+
+      <div style={{ textAlign: 'center', paddingBottom: '20px' }}>
+        <button
+          type="button"
+          onClick={handleFavoriteClick}
+          disabled={isFavoriteLoading}
+          style={{ padding: '10px 14px', cursor: 'pointer' }}
+        >
+          {isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+        </button>
+        {favoriteError && (
+          <p style={{ marginTop: '10px' }}>{favoriteError}</p>
+        )}
+      </div>
 
       <div className="recipeGrid">
         {ingredients.map(function(ing, index) {

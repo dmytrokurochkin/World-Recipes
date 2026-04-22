@@ -1,4 +1,40 @@
-# Getting Started with Create React App
+# World Recipes
+
+React frontend with a tiny PHP + SQLite backend for recipe favorites on the Profile page.
+
+## Run locally
+
+In one terminal, run the PHP API:
+
+```bash
+cd backend/public
+php -S localhost:8000
+```
+
+In a second terminal, run React:
+
+```bash
+npm install
+npm start
+```
+
+Open http://localhost:3000.
+
+Notes:
+- React uses a proxy to forward `/api/*` to `http://localhost:8000`.
+- SQLite database is created automatically at `backend/data/recipes.sqlite` on first API request.
+
+## API endpoints
+
+- `GET /api/profiles`
+- `POST /api/profiles` with body `{ "username": "alice" }`
+- `GET /api/profile/favorites`
+- `POST /api/profile/favorites` with body `{ "recipeId": "52772" }`
+- `DELETE /api/profile/favorites/:recipeId`
+
+Favorites endpoints require header `X-Profile-Id`. The frontend stores this from the selected profile in localStorage.
+
+## Original CRA docs
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
