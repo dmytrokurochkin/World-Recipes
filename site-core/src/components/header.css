@@ -4,14 +4,14 @@
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    background-color: lightskyblue;
+    background-color: var(--header-bg);
     padding: 0 20px;
     box-sizing: border-box;
 }
 
 .headerContainer a {
     text-decoration: none;
-    color: #111;
+    color: var(--text-color);
     font-weight: 500;
     font-size: 17px;
 }   
@@ -19,7 +19,7 @@
 .headerLinkButton {
     border: none;
     background: transparent;
-    color: #111;
+    color: var(--text-color);
     font-weight: 500;
     font-size: 17px;
     padding: 0;
@@ -62,5 +62,5 @@
 
 .activeProfileName {
     font-size: 13px;
-    color: #333;
+    color: var(--text-color);
 }

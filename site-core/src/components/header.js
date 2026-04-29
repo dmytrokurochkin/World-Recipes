@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getActiveProfile } from '../api/profiles';
+import { setTheme } from '../api/theme';
 import "./header.css"
 
 function Header() {
@@ -29,6 +30,14 @@ function Header() {
                 <Link to="/">Home</Link>
                 <button type="button" className="headerLinkButton" disabled>
                     Random recipe
+                </button>
+                <button type="button" className="headerLinkButton" onClick={() => {
+                    const isDark = document.body.classList.contains('dark');
+                    const newTheme = isDark ? 'light' : 'dark';
+                    document.body.classList.toggle('dark', !isDark);
+                    setTheme(newTheme).catch(console.error);
+                }}>
+                    Toggle Theme
                 </button>
             </div>
             <div className="siteName">

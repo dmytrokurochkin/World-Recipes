@@ -1,7 +1,23 @@
 * {margin: 0;}
 
+:root {
+  --bg-color: #ffffff;
+  --text-color: #111111;
+  --header-bg: lightskyblue;
+  --home-bg: lightblue;
+}
+
+body.dark {
+  --bg-color: #121212;
+  --text-color: #e0e0e0;
+  --header-bg: #1c2b3d;
+  --home-bg: #223447;
+}
+
 body {
   margin: 0;
+  background-color: var(--bg-color);
+  color: var(--text-color);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
