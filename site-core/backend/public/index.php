@@ -4,8 +4,15 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/../src/db.php';
 
+session_start([
+    'cookie_path' => '/',
+    'cookie_httponly' => true,
+    'cookie_samesite' => 'Lax'
+]);
+
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: http://localhost:3000');
+header('Access-Control-Allow-Credentials: true');
 header('Access-Control-Allow-Methods: GET, POST, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, X-Profile-Id');
 
@@ -170,6 +177,17 @@ try {
                 'username' => $username
             ]
         ]);
+    }
+
+    if ($method === 'GET' && $path === '/api/theme') {
+        jsonResponse(200, ['theme' => $_SESSION['theme'] ?? 'light']);
+    }
+
+    if ($method === 'POST' && $path === '/api/theme') {
+        $body = readJsonBody();
+        $newTheme = ($body['theme'] ?? '') === 'dark' ? 'dark' : 'light';
+        $_SESSION['theme'] = $newTheme;
+        jsonResponse(200, ['theme' => $newTheme]);
     }
 
     if ($path === '/api/profiles') {
